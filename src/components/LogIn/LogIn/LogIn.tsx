@@ -9,7 +9,7 @@ import { In, Out } from "../../../slice/isLogedIn/isLogedIn";
 import { useNavigate } from "react-router-dom";
 export default function LogIn() {
   const [userInput, setUserInput] = useState("");
-  const [trigger, { data = [], isFetching }] = useLazyGetUsersQuery();
+  const [trigger, { data = [] }] = useLazyGetUsersQuery();
   const [clicked, setClicked] = useState(false);
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,7 +23,9 @@ export default function LogIn() {
       dispatch(In());
       navigate("/");
     }
-  }, [data]);
+
+    setClicked(false);
+  }, [clicked, data]);
 
   function handleClick() {
     userInput.trim() ? trigger(userInput) : toast.error("Input some text");
@@ -59,7 +61,6 @@ export default function LogIn() {
             ></input>
 
             <button onClick={handleClick}>Submit</button>
-            {isFetching && <div style={{ marginTop: "10px" }}>Loading...</div>}
           </div>
         </div>
       </div>
